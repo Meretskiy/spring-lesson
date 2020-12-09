@@ -1,4 +1,4 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 public class Box {
     private StudentService studentService;

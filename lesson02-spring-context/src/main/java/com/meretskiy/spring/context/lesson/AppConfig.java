@@ -1,18 +1,14 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 //указыввем, что класс конфигурация для спринг контекста
 @Configuration
 //указание спрингу где искать объекты которые мы хотим создавать
-@ComponentScan("com.meretskiy.spring.context")
+@ComponentScan("com.meretskiy.spring.context.lesson")
 public class AppConfig {
     @Autowired
     private StudentService studentService;

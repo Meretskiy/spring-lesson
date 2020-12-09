@@ -1,4 +1,4 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

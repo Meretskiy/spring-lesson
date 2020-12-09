@@ -1,4 +1,4 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 public class Student {
     private Long id;

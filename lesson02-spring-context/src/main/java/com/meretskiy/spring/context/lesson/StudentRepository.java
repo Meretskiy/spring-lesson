@@ -1,4 +1,4 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 import java.util.List;
 

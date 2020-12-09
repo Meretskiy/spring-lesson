@@ -1,4 +1,4 @@
-package com.meretskiy.spring.context;
+package com.meretskiy.spring.context.lesson;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
