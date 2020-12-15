@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,17 @@ public class ProductService {
 
     public List<Product> findAllProduct() {
         return productRepository.findAllProduct();
+    }
+
+    public List<Product> findAllProduct(Integer minCost, Integer maxCost) {
+        List<Product> out = findAllProduct();
+        if (minCost != null) {
+            out = out.stream().filter(s -> s.getCost() >= minCost).collect(Collectors.toList());
+        }
+        if (maxCost != null) {
+            out = out.stream().filter(s -> s.getCost() <= maxCost).collect(Collectors.toList());
+        }
+        return out;
     }
 
     public Optional<Product> findProductById(Long id) {

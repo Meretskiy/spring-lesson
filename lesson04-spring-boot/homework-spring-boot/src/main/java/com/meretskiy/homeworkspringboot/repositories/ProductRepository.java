@@ -1,7 +1,6 @@
 package com.meretskiy.homeworkspringboot.repositories;
 
 import com.meretskiy.homeworkspringboot.model.Product;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +9,6 @@ import java.util.*;
 @Component
 public class ProductRepository {
     private List<Product> products;
-
-
 
     @PostConstruct
     public void init() {
