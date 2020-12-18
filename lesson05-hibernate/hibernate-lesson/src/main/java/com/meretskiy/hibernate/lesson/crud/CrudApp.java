@@ -5,16 +5,19 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
+
 public class CrudApp {
     //фабрика сессий, позволяющая строить сессии
     private static SessionFactory factory;
 
     //Сессия - это еденица работы с базой данных.
-    //если мы хотим отправить какой либо запрос, это действие должно выполняться в рамках сессии.
+    //Это легковесный объект, который должен выполняться для каждой операции.
+    //Если мы хотим отправить какой либо запрос, это действие должно выполняться в рамках сессии.
     //private static Session session;
 
     /**
-    подготовка базы, запуск hibernate, создание фабрики сессий
+     * подготовка базы, запуск hibernate, создание фабрики сессий
      */
     public static void init() {
         //подготовка базы
@@ -38,7 +41,11 @@ public class CrudApp {
     public static void main(String[] args) {
         try {
             init();
-            createExample();
+//            createExample();
+//            readAndPrintExample();
+//            updateExample();
+//            deleteExample();
+            showManyItems();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +55,7 @@ public class CrudApp {
     }
 
     /**
-     * CREATE
+     * CREATE(INSERT)
      */
     public static void createExample() {
         //запрашиваем у фабрики сессию в try-catch чтобы закрылась автоматом.
@@ -64,6 +71,71 @@ public class CrudApp {
             //Коммитим нашу транзакцию что бы наша операция была выполнена в БД
             session.getTransaction().commit();
             System.out.println(dragonStatue);
+        }
+    }
+
+    /**
+     * READ (SELECT)
+     */
+    public static void readAndPrintExample() {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            //вытаскиваем итем из базы - берем сессию, указываем класс и id
+            SimpleItem simpleItem = session.get(SimpleItem.class, 1L);
+            //просто отдаем на печать или проталкиваем дальше куда нам нужно
+            System.out.println(simpleItem);
+            session.getTransaction().commit();
+        }
+    }
+
+    /**
+     * UPDATE
+     */
+    public static void updateExample() {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            //вытаскиваем объект из базы
+            SimpleItem simpleItem = session.get(SimpleItem.class, 1L);
+            //меняем данные
+            simpleItem.setPrice(10_000);
+            session.getTransaction().commit();
+            System.out.println(simpleItem);
+        }
+    }
+
+    /**
+     * DELETE
+     */
+    public static void deleteExample() {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            //вытаскиваем объект из базы
+            SimpleItem simpleItem = session.get(SimpleItem.class, 1L);
+            //удаляем объект
+            session.delete(simpleItem);
+            session.getTransaction().commit();
+        }
+    }
+
+    /**
+     * HQL request
+     */
+    public static void showManyItems() {
+        try (Session session = factory.getCurrentSession()) {
+            session.beginTransaction();
+            //можно отправлять HQL запросы(объектные запросы)
+            //в лист вычитать все объекты сущности
+            List<SimpleItem> items = session.createQuery("from SimpleItem ").getResultList();
+            System.out.println(items);
+            //select с условием
+            SimpleItem si1 = session.createQuery("select s from SimpleItem s where " +
+                    "s.id = 3", SimpleItem.class).getSingleResult();
+            System.out.println(si1);
+            //select с ограничением
+            List<SimpleItem> cheapItems = session.createQuery("select s from SimpleItem s where " +
+                    "s.price < 80").getResultList();
+            System.out.println(cheapItems);
+            session.getTransaction().commit();
         }
     }
 }
