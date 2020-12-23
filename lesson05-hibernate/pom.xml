@@ -11,6 +11,7 @@
     <modules>
         <module>hibernate-lesson</module>
         <module>hibernate-homework</module>
+        <module>hibernate-homework-two</module>
     </modules>
 
     <properties>
