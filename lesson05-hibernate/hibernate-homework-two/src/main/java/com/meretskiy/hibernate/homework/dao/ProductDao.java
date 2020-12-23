@@ -48,9 +48,6 @@ public class ProductDao implements Dao {
             session.beginTransaction();
             productList = session.createQuery("from Product ").getResultList();
             //TODO убрать toString()
-            //Что бы не падало с LazyInitializationException: failed to lazily initialize a collection of role
-            //или обращаемся к классу до закрытия сессии или ставим EAGER загрузку
-            //как лечить? не закрывать сессию?
             productList.toString();
             session.getTransaction().commit();
         }

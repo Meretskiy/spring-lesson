@@ -25,9 +25,6 @@ public class BuyerDao implements Dao {
             session.beginTransaction();
             b = session.get(Buyer.class, id);
             //TODO убрать toString()
-            //Что бы не падало с LazyInitializationException: failed to lazily initialize a collection of role
-            //или обращаемся к классу до закрытия сессии или ставим EAGER загрузку
-            //как лечить? не закрывать сессию?
             b.toString();
             session.getTransaction().commit();
         }
@@ -49,9 +46,6 @@ public class BuyerDao implements Dao {
             session.beginTransaction();
             buyerList = session.createQuery("FROM Buyer ").getResultList();
             //TODO убрать toString()
-            //Что бы не падало с LazyInitializationException: failed to lazily initialize a collection of role
-            //или обращаемся к классу до закрытия сессии или ставим EAGER загрузку
-            //как лечить? не закрывать сессию?
             buyerList.toString();
             session.getTransaction().commit();
         }
