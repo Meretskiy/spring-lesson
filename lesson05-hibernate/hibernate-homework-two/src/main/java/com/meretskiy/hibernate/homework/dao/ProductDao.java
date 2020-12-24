@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ProductDao implements Dao {
+public class ProductDao implements Dao{
 
     private SessionFactoryService sessionFactory;
 
@@ -22,12 +22,9 @@ public class ProductDao implements Dao {
         Product p;
         try (Session session = sessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
-            p = session.get(Product.class, id);
-            //TODO убрать toString()
-            //Что бы не падало с LazyInitializationException: failed to lazily initialize a collection of role
-            //или обращаемся к классу до закрытия сессии или ставим EAGER загрузку
-            //как лечить? не закрывать сессию?
-            p.toString();
+            p = (Product) session.getNamedQuery("productWithOrders")
+                    .setParameter("id", id)
+                    .getSingleResult();
             session.getTransaction().commit();
         }
         return p;
@@ -46,9 +43,7 @@ public class ProductDao implements Dao {
         List<Product> productList;
         try (Session session = sessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
-            productList = session.createQuery("from Product ").getResultList();
-            //TODO убрать toString()
-            productList.toString();
+            productList = session.createNamedQuery("productWithOrdersAll").getResultList();
             session.getTransaction().commit();
         }
         return productList;

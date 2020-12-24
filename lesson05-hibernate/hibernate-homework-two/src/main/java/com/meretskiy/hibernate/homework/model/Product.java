@@ -7,6 +7,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
+@NamedQueries( {
+        @NamedQuery(name = "productWithOrders", query = "SELECT p FROM Product p JOIN FETCH p.orders WHERE p.id = :id"),
+        @NamedQuery(name = "productWithOrdersAll", query = "SELECT p FROM Product p JOIN FETCH p.orders")
+})
 public class Product {
 
     @Id

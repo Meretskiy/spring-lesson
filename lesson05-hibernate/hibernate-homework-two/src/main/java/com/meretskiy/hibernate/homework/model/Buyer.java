@@ -7,6 +7,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "buyers")
+@NamedQueries({
+        @NamedQuery(name = "buyerWithOrders", query = "SELECT b FROM Buyer b JOIN FETCH b.orders WHERE b.id = :id"),
+        @NamedQuery(name = "buyerWithOrdersAll", query = "SELECT b FROM Buyer b JOIN FETCH b.orders")
+})
+
 public class Buyer {
 
     @Id

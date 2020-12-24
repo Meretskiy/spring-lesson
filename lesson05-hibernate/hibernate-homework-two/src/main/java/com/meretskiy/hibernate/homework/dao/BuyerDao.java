@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class BuyerDao implements Dao {
+public class BuyerDao implements Dao{
 
     SessionFactoryService sessionFactory;
 
@@ -23,9 +23,9 @@ public class BuyerDao implements Dao {
         Buyer b;
         try (Session session = sessionFactory.get().getCurrentSession()) {
             session.beginTransaction();
-            b = session.get(Buyer.class, id);
-            //TODO убрать toString()
-            b.toString();
+            b = (Buyer) session.createNamedQuery("buyerWithOrders")
+                    .setParameter("id", id)
+                    .getSingleResult();
             session.getTransaction().commit();
         }
         return b;
@@ -44,9 +44,7 @@ public class BuyerDao implements Dao {
         List<Buyer> buyerList;
         try (Session session = sessionFactory.get().getCurrentSession()){
             session.beginTransaction();
-            buyerList = session.createQuery("FROM Buyer ").getResultList();
-            //TODO убрать toString()
-            buyerList.toString();
+            buyerList = session.createNamedQuery("buyerWithOrdersAll").getResultList();
             session.getTransaction().commit();
         }
         return buyerList;
