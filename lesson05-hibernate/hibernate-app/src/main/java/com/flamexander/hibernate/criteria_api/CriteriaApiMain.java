@@ -57,7 +57,7 @@ public class CriteriaApiMain {
             if (startsWith != null) {
                 predicates.add(criteriaBuilder.like(root.get("title"), startsWith + "%"));
             }
-            // todo Добавить поиск по объектам
+
             criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
             query = session.createQuery(criteriaQuery);
             results = query.getResultList();

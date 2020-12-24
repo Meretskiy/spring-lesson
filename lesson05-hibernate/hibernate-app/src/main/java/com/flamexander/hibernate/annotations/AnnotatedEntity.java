@@ -39,7 +39,7 @@ public class AnnotatedEntity {
     Integer field3;
 
     // вычисляется только в момент вытаскивания
-    @Formula("SELECT avg(b.AMOUNT) from BID b where b_ITEM_ID = ID") // todo переписать
+    @Formula("SELECT avg(b.AMOUNT) from BID b where b_ITEM_ID = ID")
     Integer field4;
 
     @Column(name = "double_weight")
