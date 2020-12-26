@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring-data-lesson</module>
+        <module>spring-data-homework</module>
     </modules>
 
     <properties>
