@@ -16,23 +16,15 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return (List<Product>) productRepository.findAll();
-    }
-
-    @GetMapping("/search_by_min_cost")
-    public List<Product> searchByMinCost(@RequestParam(name = "min_cost") Integer minCost) {
-        return productRepository.findAllByCostGreaterThan(minCost);
-    }
-
-    @GetMapping("/search_by_max_cost")
-    public List<Product> searchByMaxCost(@RequestParam(name = "max_cost") Integer maxCost) {
-        return productRepository.findAllByCostIsLessThan(maxCost);
-    }
-
-    @GetMapping("/search_by_min_and_max_cost")
-    public List<Product> searchByBetweenCost(@RequestParam(name = "min_cost") Integer minCost,
-                                             @RequestParam(name = "max_cost") Integer maxCost) {
+    public List<Product> getAllProducts(@RequestParam(name = "min_cost", required = false) Integer minCost,
+                                        @RequestParam(name = "max_cost", required = false) Integer maxCost) {
+        if (minCost == null && maxCost == null) {
+            return (List<Product>) productRepository.findAll();
+        } else if (minCost == null) {
+            return productRepository.findAllByCostIsLessThan(maxCost);
+        } else if (maxCost == null) {
+            return productRepository.findAllByCostGreaterThan(minCost);
+        }
         return productRepository.findAllByCostBetween(minCost, maxCost);
     }
 
