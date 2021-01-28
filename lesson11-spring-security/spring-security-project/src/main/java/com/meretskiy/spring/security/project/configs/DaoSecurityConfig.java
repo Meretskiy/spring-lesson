@@ -21,6 +21,7 @@ public class DaoSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         logger.info("Dao Auth Provider");
         http.authorizeRequests()
+                //по заданию всеми сервисами могут пользоваться только залогиненные пользователи
                 .antMatchers("/score/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
