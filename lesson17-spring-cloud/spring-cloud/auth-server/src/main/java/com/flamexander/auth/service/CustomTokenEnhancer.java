@@ -13,6 +13,7 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
+//зашиваем в токен необходимые доп данные
 @Component
 public class CustomTokenEnhancer implements TokenEnhancer {
     @Autowired

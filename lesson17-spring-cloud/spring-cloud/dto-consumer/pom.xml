@@ -16,6 +16,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+<!--        подключаем наш собранный джарник с dto-common (сначала нужно сделать install jara)-->
         <dependency>
             <groupId>com.flamexander.ccommon</groupId>
             <artifactId>dto-common</artifactId>

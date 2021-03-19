@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
+//TODO починить и прикрутить БД
+//конфигурирование тех клиентов которые имеют право у нас токен запрашивать.
 @Configuration
 @RequiredArgsConstructor
 public class OAuth2Config extends AuthorizationServerConfigurerAdapter {

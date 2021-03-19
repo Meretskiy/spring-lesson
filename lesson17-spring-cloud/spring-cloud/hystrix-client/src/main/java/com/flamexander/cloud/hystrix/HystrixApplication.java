@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @RestController
 @EnableEurekaClient
+//отлавливает падения и позволяет их обрабатывать
 @EnableCircuitBreaker
 public class HystrixApplication {
     private RestTemplate restTemplate;
@@ -24,6 +25,8 @@ public class HystrixApplication {
         this.restTemplate = restTemplate;
     }
 
+    //RestTemplate eureka (отличается от обычного RestTemplate тем, что в адресе пишем не айпи порт, а имя клиента,
+    // под которым он зареган на eureka)
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {
@@ -34,6 +37,7 @@ public class HystrixApplication {
         SpringApplication.run(HystrixApplication.class, args);
     }
 
+    //если не удалось корректно обработать запрос будет выполнен дефолтный метод demoFallback что бы не упала вся цепочка
     @HystrixCommand(fallbackMethod = "demoFallback")
     @GetMapping("/demo/client")
     public String demo() {

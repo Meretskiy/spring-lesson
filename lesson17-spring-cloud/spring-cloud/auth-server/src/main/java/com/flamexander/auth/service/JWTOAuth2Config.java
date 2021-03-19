@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.Arrays;
 
+//описываем как собирается токен
 @Configuration
 public class JWTOAuth2Config extends AuthorizationServerConfigurerAdapter {
     @Autowired

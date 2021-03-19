@@ -18,7 +18,9 @@ import java.util.Map;
 
 @SpringBootApplication
 @RestController
+//если хотим на этом приложении что либо защитить включаем:
 //@EnableResourceServer
+//делаем приложение сервером авторизации
 @EnableAuthorizationServer
 public class AuthServerApplication {
     @RequestMapping(value = {"/user"}, produces = "application/json")
