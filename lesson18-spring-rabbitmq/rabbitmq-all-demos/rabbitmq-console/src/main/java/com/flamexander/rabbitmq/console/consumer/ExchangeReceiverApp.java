@@ -6,16 +6,20 @@ public class ExchangeReceiverApp {
     private static final String EXCHANGE_NAME = "directExchanger";
 
     public static void main(String[] argv) throws Exception {
+        //подключение к rabbitMQ серверу
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
+        //объявляем exchanger
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
 
+        //создаем временную очередь
         String queueName = channel.queueDeclare().getQueue();
         System.out.println("My queue name: " + queueName);
 
+        //привязываем свою очередь с directExchanger по ключу
         channel.queueBind(queueName, EXCHANGE_NAME, "php");
 
         System.out.println(" [*] Waiting for messages");

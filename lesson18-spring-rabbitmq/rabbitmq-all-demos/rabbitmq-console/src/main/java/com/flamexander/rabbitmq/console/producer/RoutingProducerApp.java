@@ -15,6 +15,7 @@ public class RoutingProducerApp {
              Channel channel = connection.createChannel()) {
             channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.TOPIC);
 
+            //указываем маску
             String routingKey = "com.gb.php.hello";
             String message = "message123";
 

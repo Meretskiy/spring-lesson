@@ -18,6 +18,7 @@ public class ConsoleProcessorApp {
         // channel.queueDeclare(QUEUE_FOR_PROCESSING_NAME, true, false, false, null);
         System.out.println(" [*] Waiting for tasks");
 
+        //достаем задачу из одной очереди, обрабатываем и кладем в другую.
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received task '" + message + "'");

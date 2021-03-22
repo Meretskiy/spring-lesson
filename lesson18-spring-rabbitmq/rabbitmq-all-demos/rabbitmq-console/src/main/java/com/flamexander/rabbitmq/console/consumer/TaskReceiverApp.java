@@ -17,6 +17,8 @@ public class TaskReceiverApp {
         channel.queueDeclare(TASK_QUEUE_NAME, true, false, false, null);
         System.out.println(" [*] Waiting for messages");
 
+        // ограничение на кеширование задач одним consumerom (если не включить ограничение первый краулер может взять
+        // все задачи на себя а остальные будут простаивать)
         channel.basicQos(3);
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
@@ -29,8 +31,11 @@ public class TaskReceiverApp {
             doWork(message);
             System.out.println(" [x] Done");
 
+            //подтверждение обработки
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         };
+        // AutoAck false - если вытащили из очереди посылку не факт что я ее обработаю. Только после подтверждения
+        // обработки посылка удаляется из очереди.
         channel.basicConsume(TASK_QUEUE_NAME, false, deliverCallback, consumerTag -> {
         });
     }

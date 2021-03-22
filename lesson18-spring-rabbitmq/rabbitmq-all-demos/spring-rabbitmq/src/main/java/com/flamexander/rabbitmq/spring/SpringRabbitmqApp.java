@@ -1,15 +1,12 @@
 package com.flamexander.rabbitmq.spring;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
+
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +20,7 @@ public class SpringRabbitmqApp {
     public static final String EXCHANGE_FOR_PROCESSING_TASK = "processingExchanger";
     public static final String QUEUE_WITH_PROCESSING_TASK_RESULTS = "processingResultsQueue";
 
+    //аналог JDBC template
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
@@ -30,17 +28,20 @@ public class SpringRabbitmqApp {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    //TODO починить!!! (processingExchanger' in vhost '/', class-id=60, method-id=40))
 //    @Bean
 //    public Queue resultsQueue() {
 //        return new Queue(QUEUE_WITH_PROCESSING_TASK_RESULTS, true, false, false);
 //    }
 
+    //отправляем посылку в очередь на обработку
     @GetMapping("/{message}")
     public String sendMessage(@PathVariable String message) {
         rabbitTemplate.convertAndSend(SpringRabbitmqApp.EXCHANGE_FOR_PROCESSING_TASK, null, "Task from Server: " + message);
         return "OK";
     }
 
+    //подключение для прослушки очередей rabbitMQ
     @Bean
     public SimpleMessageListenerContainer containerForTopic(ConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
@@ -50,6 +51,7 @@ public class SpringRabbitmqApp {
         return container;
     }
 
+    //слушатель
     @Bean
     public MessageListenerAdapter listenerAdapter(SimpleMessageReceiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");

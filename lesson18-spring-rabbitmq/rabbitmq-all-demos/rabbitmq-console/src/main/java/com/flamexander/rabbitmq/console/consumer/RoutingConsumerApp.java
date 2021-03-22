@@ -15,6 +15,7 @@ public class RoutingConsumerApp {
 
         String queueName = channel.queueDeclare().getQueue();
 
+        //* - замена одного элемента, # - весь дальнейший путь
         String routingKey = "com.gb.#";
         channel.queueBind(queueName, EXCHANGE_NAME, routingKey);
         System.out.println(" [*] Waiting for messages with routing key (" + routingKey + "):");

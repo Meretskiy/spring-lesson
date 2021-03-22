@@ -15,11 +15,12 @@ public class ExchangeSenderApp {
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
+            channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT); //объявляем exchanger и указываем его тип
 
             String message = "info: Hello World!";
 
 //            channel.basicPublish(EXCHANGE_NAME, "programming.best-practices.java", null, message.getBytes("UTF-8"));
+            //отправляем сообщение в exchanger с routing key : php
             channel.basicPublish(EXCHANGE_NAME, "php", null, message.getBytes("UTF-8"));
             System.out.println(" [x] Sent '" + message + "'");
         }
